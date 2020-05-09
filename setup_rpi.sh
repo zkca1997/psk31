@@ -2,7 +2,9 @@
 
 # update repositories and install important packages
 apt-get update -y
-apt-get install-y git curl
+apt-get install -y git curl
+git config --global user.email "zachary.johnson183@gmail.com"
+git config --global user.name "zkca1997"
 
 # configure local wifi server for ssh
 apt-get install -y hostapd dnsmasq
@@ -29,10 +31,27 @@ wpa_passphrase=fluffycockroach*8" > /etc/hostapd/hostapd.conf
 echo 'DAEMON_CONF="/etc/hostapd/hostapd.conf"' >> /etc/default/hostapd
 
 # configure NeoVim
+apt-get install -y neovim
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+mkdir -p $HOME/.config/nvim
+echo "call plug#begin('~/.vim/plugged')
+Plug 'itchyny/lightline.vim'
+Plug 'rust-lang/rust.vim'
+call plug#end()
+
+set nocompatible
+set ruler
+set showmatch
+set tabstop
+set autoindent
+set number" > $HOME/.config/nvim/init.vim
 
 # configure Rust environment
 apt-get install -y build-essentials
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+source $HOME/.cargo/env
 
 # clone git repository into home folder
-git 
+cd $HOME
+git clone https://github.com/zkca1997/psk31.git
