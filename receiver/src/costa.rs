@@ -35,7 +35,7 @@ impl Costa {
         filter::IIRFilter::new(&[(c1+c2) as f32, (-1.0*c1) as f32], &[1.0, -1.0])
     }
 
-    pub fn demod(&mut self, x0: f32) -> f32{
+    pub fn sync(&mut self, x0: f32) -> f32{
         let (lo1, lo0) = self.theta.sin_cos();
         let s0  = self.i_filter.filter(lo0 * x0);
         let s1  = self.q_filter.filter(lo1 * x0);

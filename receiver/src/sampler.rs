@@ -1,15 +1,11 @@
-extern crate timer;
-extern crate chrono;
-
-use chrono::Duration;
+use rppal::uart::{Parity, Uart};
 
 pub struct Sampler {
-    ts: Duration,
-    guard: timer::Guard,
+    uart: Uart,
 }
 
 impl Sampler {
-    pub fn new(fs: f64) -> Self {
+    pub fn start() -> Self {
         let ts = Duration::nanoseconds((1e9 / fs) as i64);
         let timer = timer::Timer::new();
         let guard = timer.schedule_repeating(ts, move || println!("foo") );
